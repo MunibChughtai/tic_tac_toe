@@ -35,7 +35,7 @@ class Tic_Tac_Toe:
             if not self._game_board.are_board_coordnates_valid(coordinates):
                 print(f'Oh no, input coordinates are outside the board! Try again...')
                 continue
-            if not self._game_board.is_board_position_vacant(coordinates):
+            if not self._game_board.are_board_coordinates_vacant(coordinates):
                 print(f'Oh no, a piece is already at this place! Try again...')
                 continue
             break
@@ -70,8 +70,8 @@ class Tic_Tac_Toe:
             if (coordinates.lower()).strip()=='q':
                 break
             print('Move accepted, ', end =' ')
-            x_position, y_position = self._game_board._extract_x_and_y_coordinates(coordinates)
-            self._game_board.assign_player_move_on_board(Player(player_symbol,x_position+1, y_position+1))
+            x_coordinate, y_coordinate = self._game_board._extract_x_and_y_coordinates(coordinates)
+            self._game_board.assign_player_move_on_board(Player(player_symbol,x_coordinate+1, y_coordinate+1))
             if self.is_game_drawn() or self.is_game_won(coordinates, player_symbol):
                 self._game_board.display_board()
                 break
