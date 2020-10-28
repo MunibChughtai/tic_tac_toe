@@ -1,8 +1,6 @@
-#from tic_tac_toe.source_code.game_board import Game_Board
-#from tic_tac_toe.source_code.player import Player
-
 from game_board import Game_Board
 from player import Player  # only added for time being, may be removed later
+import re
 
 class Tic_Tac_Toe:
 
@@ -17,11 +15,21 @@ class Tic_Tac_Toe:
         else:
             return ('Player 2', 'O')
 
+    def _is_input_pattern_matched(self, coordinates):
+        pattern_matched = re.match('^[0-9]+\s*,\s*[0-9]+$|q', coordinates)
+        if pattern_matched:
+            return True
+        else:
+            return False
+
     def _get_user_input(self):
         player_number, player_symbol = self._get_player_turn()
         while True:
-            coordinates=input(f'{player_number} enter a coord x,y to place your {player_symbol} or enter ''q'' to give up: ')
-            if coordinates== 'q':
+            coordinates=input(f'{player_number} enter a coord x,y to place your {player_symbol} or enter ''q'' to give up: ').strip()
+            if not self._is_input_pattern_matched(coordinates):
+                print('Oh no, Invalid input format. Try again...')
+                continue
+            if (coordinates.lower()).strip()== 'q':
                 print(f'{player_number} gave up, try again and you may win next time')
                 return ('q', player_number, player_symbol)
             if not self._game_board.are_board_coordnates_valid(coordinates):
@@ -40,7 +48,16 @@ class Tic_Tac_Toe:
         return False
 
     def is_game_won(self, coordinates_to_check, player_symbol):
-        if self._game_board.is_horizontal_match_found(coordinates_to_check, player_symbol) or self._game_board.is_vertical_match_found(coordinates_to_check, player_symbol) or self._game_board.is_diagonal1_match_found(player_symbol) or self._game_board.is_diagonal2_match_found(player_symbol):
+        game_won=False
+        if self._game_board.is_horizontal_match_found(coordinates_to_check, player_symbol):
+            game_won = True
+        if self._game_board.is_vertical_match_found(coordinates_to_check, player_symbol):
+            game_won = True
+        if self._game_board.is_diagonal1_match_found(player_symbol):
+            game_won = True
+        if self._game_board.is_diagonal2_match_found(player_symbol):
+            game_won = True
+        if game_won:
             print("well done you've won the game!")
             return True
         return False
@@ -53,24 +70,8 @@ class Tic_Tac_Toe:
             if (coordinates.lower()).strip()=='q':
                 break
             print('Move accepted, ', end =' ')
-            xposition, yposition = self._game_board._extract_x_and_y_coordinates(coordinates)
-            self._game_board.assign_player_move_on_board(Player(player_symbol,xposition+1, yposition+1))
+            x_position, y_position = self._game_board._extract_x_and_y_coordinates(coordinates)
+            self._game_board.assign_player_move_on_board(Player(player_symbol,x_position+1, y_position+1))
             if self.is_game_drawn() or self.is_game_won(coordinates, player_symbol):
                 self._game_board.display_board()
                 break
-
-
-
-
-
-        #==============================
-        #ask_player_to_make_move(X)
-        #verify_move_for_correctness
-        #  give Up
-        #  draw
-        #  win
-        # display game board
-        # ==============================
-
-#t=Tic_Tac_Toe()
-#t.start_game()

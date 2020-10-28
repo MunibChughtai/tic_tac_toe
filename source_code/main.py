@@ -1,4 +1,3 @@
-#from .tic_tac_toe import Tic_Tac_Toe
 from tic_tac_toe import Tic_Tac_Toe
 
 def main():
