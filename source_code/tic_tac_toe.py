@@ -1,8 +1,8 @@
-#from tic_tac_toe.code.game_board import Game_Board
-#from tic_tac_toe.code.player import Player
+#from tic_tac_toe.source_code.game_board import Game_Board
+#from tic_tac_toe.source_code.player import Player
 
-from .game_board import Game_Board
-from .player import Player  # only added for time being, may be removed later
+from game_board import Game_Board
+from player import Player  # only added for time being, may be removed later
 
 class Tic_Tac_Toe:
 
@@ -20,7 +20,7 @@ class Tic_Tac_Toe:
     def _get_user_input(self):
         player_number, player_symbol = self._get_player_turn()
         while True:
-            coordinates=input(f'{player_number} enter a coord x,y to place your {player_symbol} or enter ''q'' to give up:')
+            coordinates=input(f'{player_number} enter a coord x,y to place your {player_symbol} or enter ''q'' to give up: ')
             if coordinates== 'q':
                 print(f'{player_number} gave up, try again and you may win next time')
                 return ('q', player_number, player_symbol)
@@ -34,14 +34,14 @@ class Tic_Tac_Toe:
         return (coordinates, player_number, player_symbol)
 
     def is_game_drawn(self):
-        if self._game_board._is_any_move_left():
+        if not self._game_board._is_any_move_left():
             print(f'Good Try, Game drawn this time, you may win next time')
             return True
         return False
 
     def is_game_won(self, coordinates_to_check, player_symbol):
         if self._game_board.is_horizontal_match_found(coordinates_to_check, player_symbol) or self._game_board.is_vertical_match_found(coordinates_to_check, player_symbol) or self._game_board.is_diagonal1_match_found(player_symbol) or self._game_board.is_diagonal2_match_found(player_symbol):
-            print('well done you''ve won the game!')
+            print("well done you've won the game!")
             return True
         return False
 
@@ -72,5 +72,5 @@ class Tic_Tac_Toe:
         # display game board
         # ==============================
 
-t=Tic_Tac_Toe()
-t.start_game()
+#t=Tic_Tac_Toe()
+#t.start_game()
