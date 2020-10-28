@@ -3,22 +3,33 @@ from source_code.player import Player
 
 class Game_Board:
     def __init__(self):
-        self._board = [
-            ['.', '.', '.'],
-            ['.', '.', '.'],
-            ['.', '.', '.']
-        ]
+        self._board = self._initialize_board()
         self._moves_left = len(self._board) * len(self._board)
 
-    # this cannot be tested,, only visual testing possible
-    def display_board(self):
+    def _initialize_board(self):
+        _board=[]
+        board_size=3
+        self._moves_left = board_size * board_size
+        for rows in range(board_size):
+            _board.append(['.'])
+            for columns in range(board_size-1):
+                _board[rows].append('.')
+        return _board
+
+    def extract_display_board(self):
+        _board = ''
         for board_row in self._board:
-            print('  '.join(
+            _board += '  '.join(
                 [
                  (board_coordinates.get_player_symbol() if isinstance(board_coordinates, Player) else board_coordinates)
                  for board_coordinates in board_row
                  ]
-                            ))
+                     )+'\n'
+        return _board
+
+    # this cannot be tested,, only visual testing possible
+    def display_board(self):
+        print(self.extract_display_board())
 
     def display_board_message(self):
         print("here's the current board:")
