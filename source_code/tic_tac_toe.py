@@ -1,5 +1,5 @@
-from game_board import Game_Board
-from player import Player  # only added for time being, may be removed later
+from source_code.game_board import Game_Board
+from source_code.player import Player  # only added for time being, may be removed later
 import re
 
 class Tic_Tac_Toe:

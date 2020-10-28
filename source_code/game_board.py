@@ -1,4 +1,4 @@
-from player import Player
+from source_code.player import Player
 
 
 class Game_Board:

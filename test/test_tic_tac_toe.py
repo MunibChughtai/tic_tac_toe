@@ -1,10 +1,6 @@
-#from tic_tac_toe.source_code.player import Player
-#from tic_tac_toe.source_code.game_board import Game_Board
-
-
-
-from ..source_code.game_board import Game_Board
-from ..source_code.player import Player
+from source_code.game_board import Game_Board
+from source_code.player import Player
+from source_code.tic_tac_toe import Tic_Tac_Toe
 
 import pytest
 
@@ -14,7 +10,7 @@ def test_player_symbol():
 
 def test_player_position():
     p1 = Player('X', 2, 2)
-    assert p1.get_player_position() == (2,2)
+    assert p1.get_player_coordinate() == (2,2)
 
 @pytest.mark.parametrize('input, expected',
                          [
@@ -26,7 +22,23 @@ def test_board_for_vacant_positions(input, expected):
     b = Game_Board()
     p1 = Player('X', 2, 3)
     b.assign_player_move_on_board(p1)
-    assert b.is_board_position_vacant(input) == expected
+    assert b.are_board_coordinates_vacant(input) == expected
+
+
+@pytest.mark.parametrize('input, expected',
+                         [
+                           ('1,3', True),
+                           ('2,,1',False),
+                           ('3,2a', False),
+                           ('a,b', False),
+                           ('3,2', True),
+                             ('q', True)
+                          ]
+                         )
+def test_valid_input_patterns(input, expected):
+    tic_tac_toe=Tic_Tac_Toe()
+    assert tic_tac_toe._is_input_pattern_matched(input)== expected
+
 
 @pytest.mark.parametrize('input, expected',
                          [
@@ -37,9 +49,10 @@ def test_board_for_vacant_positions(input, expected):
                            ('2,4', False)
                           ]
                          )
-def test_board_for_valid_coordinates(input, expected):
+def test_board_for_out_of_board_coordinates(input, expected):
     b = Game_Board()
     assert b.are_board_coordnates_valid(input) == expected
+
 
 # need to retest this when all logic implementation is complete
 def test_any_move_left():
@@ -186,3 +199,45 @@ def test2_diagonal2_match_found():
     p3 = Player('X', 1, 3)
     b.assign_player_move_on_board(p3)
     assert b.is_diagonal2_match_found('X') == False
+
+def test1_game_won_test():
+    tic_tac_toe = Tic_Tac_Toe()
+    p1 = Player('X', 1, 1)
+    tic_tac_toe._game_board.assign_player_move_on_board(p1)
+    p2 = Player('X', 2, 1)
+    tic_tac_toe._game_board.assign_player_move_on_board(p2)
+    p3 = Player('X', 3, 1)
+    tic_tac_toe._game_board.assign_player_move_on_board(p3)
+    assert tic_tac_toe.is_game_won('3,1','X') == True
+
+def test2_game_won_test():
+    tic_tac_toe = Tic_Tac_Toe()
+    p1 = Player('X', 1, 1)
+    tic_tac_toe._game_board.assign_player_move_on_board(p1)
+    p2 = Player('Y', 2, 1)
+    tic_tac_toe._game_board.assign_player_move_on_board(p2)
+    p3 = Player('X', 3, 1)
+    tic_tac_toe._game_board.assign_player_move_on_board(p3)
+    assert tic_tac_toe.is_game_won('3,1','X') == False
+
+def test1_game_drawn_test():
+    tic_tac_toe = Tic_Tac_Toe()
+    p1 = Player('X', 1, 1)
+    tic_tac_toe._game_board.assign_player_move_on_board(p1)
+    p2 = Player('Y', 1, 2)
+    tic_tac_toe._game_board.assign_player_move_on_board(p2)
+    p3 = Player('X', 1, 3)
+    tic_tac_toe._game_board.assign_player_move_on_board(p3)
+    p1 = Player('X', 2, 1)
+    tic_tac_toe._game_board.assign_player_move_on_board(p1)
+    p2 = Player('Y', 2, 2)
+    tic_tac_toe._game_board.assign_player_move_on_board(p2)
+    p3 = Player('Y', 2, 3)
+    tic_tac_toe._game_board.assign_player_move_on_board(p3)
+    p1 = Player('Y', 3, 1)
+    tic_tac_toe._game_board.assign_player_move_on_board(p1)
+    p2 = Player('X', 3, 2)
+    tic_tac_toe._game_board.assign_player_move_on_board(p2)
+    p3 = Player('X', 3, 3)
+    tic_tac_toe._game_board.assign_player_move_on_board(p3)
+    assert tic_tac_toe.is_game_drawn() == True
