@@ -17,11 +17,7 @@ class Tic_Tac_Toe:
             return ('Player 2', 'O')
 
     def _is_input_pattern_matched(self, coordinates):
-        pattern_matched = re.match('^[0-9]+\s*,\s*[0-9]+$|q', coordinates)
-        if pattern_matched:
-            return True
-        else:
-            return False
+        return re.match('^[0-9]+\s*,\s*[0-9]+$|q', coordinates)
 
     def _get_user_input(self):
         player_number, player_symbol = self._get_player_turn()
